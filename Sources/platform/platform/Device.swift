@@ -17,8 +17,7 @@
 //
 //  ComputePlatform
 //    ComputeService
-//      cpu
-//      accelerators[]
+//      cpu and accelerators[]
 //        devices[]
 //          ComputeDevice (dev:0, dev:1, ...)
 //            DeviceArray
@@ -31,8 +30,7 @@ import Foundation
 /// ComputePlatform
 /// The root collection of compute resources available to the application
 /// on a given machine
-public protocol ComputePlatform: Logger
-{
+public protocol ComputePlatform: class, Logger {
     // types
     associatedtype Service: ComputeService
     
@@ -51,8 +49,7 @@ public protocol ComputePlatform: Logger
 /// ComputeService
 /// a compute service represents a category of installed devices on the
 /// platform, such as (cpu, cuda, tpu, ...)
-public protocol ComputeService: Logger
-{
+public protocol ComputeService: Logger {
     // types
     associatedtype Cpu: ComputeDevice
     associatedtype Accelerator: ComputeDevice
@@ -73,11 +70,18 @@ public protocol ComputeService: Logger
 }
 
 //==============================================================================
+/// ServiceOptimizer
+public protocol ServiceOptimizer: ComputeService {
+    associatedtype Service: ComputeService
+    
+    var service: Service { get }
+}
+
+//==============================================================================
 /// ComputeDevice
 /// a compute device represents a physical service device installed
 /// on the platform
-public protocol ComputeDevice: Logger
-{
+public protocol ComputeDevice: Logger {
     // types
     associatedtype Queue: DeviceQueue
     
@@ -95,8 +99,7 @@ public protocol ComputeDevice: Logger
 /// DeviceQueue
 /// A device queue is an asynchronous sequential list of commands to be
 /// executed on the associated device.
-public protocol DeviceQueue: Logger
-{
+public protocol DeviceQueue: Logger {
     // types
     associatedtype Event: QueueEvent
 

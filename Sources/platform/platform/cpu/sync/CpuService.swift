@@ -15,6 +15,16 @@
 //
 import Foundation
 
+public protocol TensorView {
+    var value: Int { get }
+//    init(_ v: Int)
+}
+
+extension Int: TensorView {
+    public var value: Int { return self }
+//    public init(_ v: Int) { self = v }
+}
+
 //==============================================================================
 /// CudaService
 /// The collection of compute resources available to the application
@@ -88,6 +98,11 @@ public struct CpuQueue: DeviceQueue
             "\(deviceName)_\(name)", categories: .queueAlloc)
     }
 
+    public func add<T>(_ lhs: T, _ rhs: T) -> T
+        where T: TensorView & AdditiveArithmetic
+    {
+        lhs + rhs
+    }
     
     public func createEvent(options: QueueEventOptions) throws -> CpuQueueEvent {
         fatalError()
