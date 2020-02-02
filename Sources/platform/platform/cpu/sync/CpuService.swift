@@ -104,19 +104,19 @@ public struct CpuQueue: DeviceQueue
         lhs + rhs
     }
     
-    public func createEvent(options: QueueEventOptions) throws -> CpuQueueEvent {
+    public func createEvent(options: QueueEventOptions) -> QueueEvent {
+        CpuQueueEvent()
+    }
+    
+    public func record(event: QueueEvent) -> QueueEvent {
+        CpuQueueEvent()
+    }
+    
+    public func wait(for event: QueueEvent) {
         fatalError()
     }
     
-    public func record(event: QueueEvent) throws -> CpuQueueEvent {
-        fatalError()
-    }
-    
-    public func wait(for event: QueueEvent) throws {
-        fatalError()
-    }
-    
-    public func waitUntilQueueIsComplete() throws {
+    public func waitUntilQueueIsComplete() {
         fatalError()
     }
 }

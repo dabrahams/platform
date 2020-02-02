@@ -100,10 +100,6 @@ public protocol ComputeDevice: Logger {
 /// A device queue is an asynchronous sequential list of commands to be
 /// executed on the associated device.
 public protocol DeviceQueue: Logger {
-    // types
-    associatedtype Event: QueueEvent
-
-    //-------------------------------------
     // properties
     /// the id of the device for example queue:0, queue:1, ...
     var id: Int { get }
@@ -116,18 +112,18 @@ public protocol DeviceQueue: Logger {
     // synchronization functions
     /// creates a QueueEvent
     @inlinable
-    func createEvent(options: QueueEventOptions) throws -> Event
+    func createEvent(options: QueueEventOptions) -> QueueEvent
     /// queues a queue event op. When executed the event is signaled
     @inlinable
     @discardableResult
-    func record(event: QueueEvent) throws -> Event
+    func record(event: QueueEvent) -> QueueEvent
     /// records an op on the queue that will perform a queue blocking wait
     /// when it is processed
     @inlinable
-    func wait(for event: QueueEvent) throws
+    func wait(for event: QueueEvent)
     /// blocks the calling thread until the queue queue has completed all work
     @inlinable
-    func waitUntilQueueIsComplete() throws
+    func waitUntilQueueIsComplete()
     
 }
 
