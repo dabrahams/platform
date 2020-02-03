@@ -1,6 +1,13 @@
 import Foundation
 import Dispatch
 
+// composition examples
+let p0 = Platform<CpuService>()
+let p1 = Platform<AsyncCpuService>()
+let p2 = Platform<CudaService>()
+let p3 = Platform<Sharding<CudaService>>()
+
+// test parameters
 let runs = 10
 let iterations = 1000000 // 1 million
 var count = 0
