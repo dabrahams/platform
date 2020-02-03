@@ -26,11 +26,44 @@
 //
 import Foundation
 
+public protocol DeviceFunctions {
+    func add<T>(_ lhs: T, _ rhs: T) -> T
+        where T: TensorView & AdditiveArithmetic
+    
+    func sub<T>(_ lhs: T, _ rhs: T) -> T
+        where T: TensorView & AdditiveArithmetic
+}
+
+extension DeviceFunctions {
+    public func add<T>(_ lhs: T, _ rhs: T) -> T
+        where T: TensorView & AdditiveArithmetic
+    {
+        lhs + rhs
+    }
+    
+    public func sub<T>(_ lhs: T, _ rhs: T) -> T
+        where T: TensorView & AdditiveArithmetic {
+            print("default user sub from DeviceFunctions")
+            return lhs - rhs
+    }
+}
+
 //==============================================================================
 /// ComputePlatform
 /// The root collection of compute resources available to the application
 /// on a given machine
-public protocol ComputePlatform: class, Logger {
+public protocol PlatformDevices: Logger {
+    /// returns the specified cpu device queue
+    func cpu(queue: Int) -> DeviceQueue
+    /// returns the specified accelerator device queue
+    func accelerator(device: Int, queue: Int) -> DeviceQueue
+}
+
+//==============================================================================
+/// ComputePlatform
+/// The root collection of compute resources available to the application
+/// on a given machine
+public protocol ComputePlatform: PlatformDevices {
     // types
     associatedtype Service: ComputeService
     
@@ -82,10 +115,7 @@ public protocol ServiceOptimizer: ComputeService {
 /// a compute device represents a physical service device installed
 /// on the platform
 public protocol ComputeDevice: Logger {
-    // types
     associatedtype Queue: DeviceQueue
-    
-    //-------------------------------------
     // properties
     /// the id of the device for example dev:0, dev:1, ...
     var id: Int { get }
@@ -99,7 +129,7 @@ public protocol ComputeDevice: Logger {
 /// DeviceQueue
 /// A device queue is an asynchronous sequential list of commands to be
 /// executed on the associated device.
-public protocol DeviceQueue: Logger {
+public protocol DeviceQueue: DeviceFunctions, Logger {
     // properties
     /// the id of the device for example queue:0, queue:1, ...
     var id: Int { get }

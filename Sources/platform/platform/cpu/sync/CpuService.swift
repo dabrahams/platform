@@ -72,8 +72,8 @@ public struct CpuDevice: ComputeDevice {
 
 //==============================================================================
 /// CpuQueue
-public struct CpuQueue: DeviceQueue
-{
+public struct CpuQueue: DeviceQueue {
+    // properties
     public let id: Int
     public let logInfo: LogInfo
     public let deviceName: String
@@ -86,8 +86,7 @@ public struct CpuQueue: DeviceQueue
     //--------------------------------------------------------------------------
     // initializers
     @inlinable
-    public init(parent logInfo: LogInfo, deviceName: String, id: Int)
-    {
+    public init(parent logInfo: LogInfo, deviceName: String, id: Int) {
         self.id = id
         self.name = "q:\(id)"
         self.logInfo = logInfo.child(name)
@@ -98,12 +97,6 @@ public struct CpuQueue: DeviceQueue
             "\(deviceName)_\(name)", categories: .queueAlloc)
     }
 
-    public func add<T>(_ lhs: T, _ rhs: T) -> T
-        where T: TensorView & AdditiveArithmetic
-    {
-        lhs + rhs
-    }
-    
     public func createEvent(options: QueueEventOptions) -> QueueEvent {
         CpuQueueEvent()
     }

@@ -18,7 +18,7 @@
 /// Platform
 /// The collection of compute resources available to the application
 /// on the machine where the process is being run.
-public class Platform<Service>: ComputePlatform
+public struct Platform<Service>: ComputePlatform
     where Service: ComputeService
 {
     // properties
@@ -29,8 +29,7 @@ public class Platform<Service>: ComputePlatform
     
     //--------------------------------------------------------------------------
     @inlinable
-    public init(id: Int = 0)
-    {
+    public init(id: Int = 0) {
         self.id = id
         self.name = "platform:\(id)"
         // create the log
@@ -39,6 +38,14 @@ public class Platform<Service>: ComputePlatform
         
         // create the service
         self.service = Service(parent: logInfo, id: 0)
+    }
+    
+    public func cpu(queue: Int) -> DeviceQueue {
+        service.cpu.queues[queue]
+    }
+    
+    public func accelerator(device: Int, queue: Int) -> DeviceQueue {
+        service.accelerators[device].queues[queue]
     }
 }
 
