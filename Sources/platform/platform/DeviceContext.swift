@@ -28,7 +28,7 @@ import Glibc
 ///             specified device queue
 @inlinable
 public func using<R>(cpuQueue id: Int, _ body: () -> R) -> R {
-    let context = DeviceContext.local
+    let context = DeviceContext.current
     context.push(context.platform.cpu(queue: id))
     defer { context.popQueue() }
     return body()
@@ -42,7 +42,7 @@ public func using<R>(cpuQueue id: Int, _ body: () -> R) -> R {
 ///             specified device queue
 @inlinable
 public func using<R>(accelerator id: Int, queue: Int, _ body: () -> R) -> R {
-    let context = DeviceContext.local
+    let context = DeviceContext.current
     context.push(context.platform.accelerator(device: id, queue: queue))
     defer { context.popQueue() }
     return body()
@@ -88,7 +88,7 @@ public class DeviceContext {
     /// queue
     @inlinable
     public static var queue: DeviceQueue {
-        DeviceContext.local.queueStack.last!
+        DeviceContext.current.queueStack.last!
     }
     
     //--------------------------------------------------------------------------
@@ -102,9 +102,9 @@ public class DeviceContext {
     }
     
     //--------------------------------------------------------------------------
-    /// returns the thread local instance of the queues stack
+    /// returns the thread current instance of the queues stack
     @inlinable
-    public static var local: DeviceContext {
+    public static var current: DeviceContext {
         // try to get an existing state
         if let state = pthread_getspecific(key) {
             return Unmanaged.fromOpaque(state).takeUnretainedValue()

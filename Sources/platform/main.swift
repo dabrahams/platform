@@ -2,21 +2,22 @@ import Foundation
 import Dispatch
 
 let runs = 10
-let iterations = 1000000
+let iterations = 1000000 // 1 million
 var count = 0
 var elapsed: [Double] = []
 
 // device is accessed via protocol in generic platform composition
 do {
     let globalPlatform = Platform<CpuService>()
-    let absPlatform: PlatformDevices = globalPlatform
-
+    
     // 0.000280
-    let queue: DeviceQueue = absPlatform.cpu(queue: 0)
+    let viaProtocol: PlatformDevices = globalPlatform
+    
+    // 0.0250    100X slower!!
+//    DeviceContext.current.platform = globalPlatform
+//    let viaProtocol: PlatformDevices = DeviceContext.current.platform
 
-    // 0.000280
-//    let queue: DeviceQueue = globalPlatform.cpu(queue: 0)
-//    let queue: DeviceQueue = globalPlatform.service.cpu.queues[0]
+    let queue: DeviceQueue = viaProtocol.cpu(queue: 0)
     
     // simulated api
     func add<T>(_ lhs: T, _ rhs: T) -> T
@@ -25,7 +26,7 @@ do {
         queue.add(lhs, rhs)
     }
     
-    // gather average runs of 1 million iterations
+    // gather average runs
     elapsed = []
     count = 0
     for _ in 0..<runs {
