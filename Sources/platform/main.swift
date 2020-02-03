@@ -41,7 +41,7 @@ do {
         for i in 0..<iterations {
             count += add(i, i)
             //            count += queue.add(i, i)
-            //            count += platform.service.cpu.queues[0].add(i, i)
+            //            count += globalPlatform.service.cpu.queues[0].add(i, i)
         }
         elapsed.append(Date().timeIntervalSince(start))
     }
