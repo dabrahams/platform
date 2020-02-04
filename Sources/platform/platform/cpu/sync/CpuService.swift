@@ -41,6 +41,9 @@ public struct CpuService: ComputeService {
     public let id: Int
     public let logInfo: LogInfo
     public let name: String
+
+    // test
+    public var useCpu: Bool
     
     //--------------------------------------------------------------------------
     public init(parent logInfo: LogInfo, id: Int) {
@@ -49,6 +52,7 @@ public struct CpuService: ComputeService {
         self.cpu = CpuDevice(parent: self.logInfo, id: 0)
         self.id = id
         self.accelerators = []
+        self.useCpu = true
     }
 }
 

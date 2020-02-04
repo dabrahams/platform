@@ -64,6 +64,10 @@ public protocol ComputeService: Logger {
     var id: Int { get }
     /// name used logging
     var name: String { get }
+    
+    
+    // this property is a test idea
+    var useCpu: Bool { get set }
 
     // DaveA discuss
     // `cpu` and `accelerators` are collections of types conforming to

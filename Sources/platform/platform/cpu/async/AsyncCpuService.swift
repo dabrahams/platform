@@ -27,6 +27,9 @@ public struct AsyncCpuService: ComputeService {
     public let logInfo: LogInfo
     public let name: String
     
+    // test
+    public var useCpu: Bool
+
     //--------------------------------------------------------------------------
     public init(parent logInfo: LogInfo, id: Int) {
         self.name = "AsyncCpuService"
@@ -34,5 +37,6 @@ public struct AsyncCpuService: ComputeService {
         self.cpu = CpuDevice(parent: self.logInfo, id: 0)
         self.id = id
         self.accelerators = []
+        self.useCpu = true
     }
 }

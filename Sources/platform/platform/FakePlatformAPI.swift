@@ -4,8 +4,21 @@ extension ComputePlatform {
         where T: TensorView & AdditiveArithmetic
     {
         // DaveA
-        // want this to look like `service.queues[0].add(lhs, rhs)`
-        service.cpu.queues[0].add(lhs, rhs)
+        // Option 1
+        // this is fast: 1X perf
+        return service.cpu.queues[0].add(lhs, rhs)
+
+        // Option 2
+        // want this to look like: perf ~100X
+        // return service.queues[0].add(lhs, rhs)
+        
+        // Option 3
+        // ugly but ... perf: ~1.9X
+//        if service.useCpu {
+//            return service.cpu.queues[0].add(lhs, rhs)
+//        } else {
+//            return service.accelerators[0].queues[0].add(lhs, rhs)
+//        }
     }
     
     func addMore<T>(_ lhs: T, _ rhs: T) -> T

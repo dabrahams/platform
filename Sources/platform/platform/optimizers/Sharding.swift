@@ -31,6 +31,10 @@ public struct Sharding<Service>: ServiceOptimizer
     public let queues: [DeviceQueue]
     public let service: Service
     
+    
+    // test
+    public var useCpu: Bool
+
     //--------------------------------------------------------------------------
     public init(parent logInfo: LogInfo, id: Int) {
         self.name = "Sharding"
@@ -40,5 +44,6 @@ public struct Sharding<Service>: ServiceOptimizer
         self.accelerators = []
         self.queues = [cpu.queues[0]]
         self.service = Service(parent: self.logInfo, id: self.id)
+        self.useCpu = true
     }
 }
