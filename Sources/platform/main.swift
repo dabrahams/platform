@@ -1,5 +1,4 @@
 import Foundation
-import Dispatch
 
 // platform composition examples
 //let p0 = Platform<CpuService>()

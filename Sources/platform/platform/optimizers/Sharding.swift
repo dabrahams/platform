@@ -23,11 +23,12 @@ public struct Sharding<Service>: ServiceOptimizer
     where Service: ComputeService
 {
     // properties
-    public var accelerators: [CpuDevice]
-    public var cpu: CpuDevice
-    public var id: Int
+    public let accelerators: [CpuDevice]
+    public let cpu: CpuDevice
+    public let id: Int
     public let logInfo: LogInfo
-    public var name: String
+    public let name: String
+    public let queues: [DeviceQueue]
     public let service: Service
     
     //--------------------------------------------------------------------------
@@ -37,6 +38,7 @@ public struct Sharding<Service>: ServiceOptimizer
         self.cpu = CpuDevice(parent: self.logInfo, id: 0)
         self.id = id
         self.accelerators = []
+        self.queues = [cpu.queues[0]]
         self.service = Service(parent: self.logInfo, id: self.id)
     }
 }

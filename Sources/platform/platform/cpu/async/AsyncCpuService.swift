@@ -21,11 +21,11 @@ import Foundation
 /// on the machine where the process is being run.
 public struct AsyncCpuService: ComputeService {
     // properties
-    public var accelerators: [CpuDevice]
-    public var cpu: CpuDevice
-    public var id: Int
+    public let accelerators: [CpuDevice]
+    public let cpu: CpuDevice
+    public let id: Int
     public let logInfo: LogInfo
-    public var name: String
+    public let name: String
     
     //--------------------------------------------------------------------------
     public init(parent logInfo: LogInfo, id: Int) {

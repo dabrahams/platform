@@ -64,8 +64,9 @@ public protocol ComputeService: Logger {
     var id: Int { get }
     /// name used logging
     var name: String { get }
-    
+
     //--------------------------------------------------------------------------
+    // initializers
     init(parent logInfo: LogInfo, id: Int)
 }
 
