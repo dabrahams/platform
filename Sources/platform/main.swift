@@ -17,8 +17,8 @@ let platform = ApplicationPlatform()
 platform.runModel()
 
 // extend the application platform with our model
-extension ApplicationPlatform
-{
+extension ApplicationPlatform {
+    
     func runModel() {
         // test parameters
         let runs = 10

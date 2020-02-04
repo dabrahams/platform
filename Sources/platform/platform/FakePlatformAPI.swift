@@ -1,52 +1,53 @@
 //------------------------------------------------------------------------------
 extension ComputePlatform {
     func add<T>(_ lhs: T, _ rhs: T) -> T
-        where T: TensorView & AdditiveArithmetic
+        where T: TensorView & BinaryInteger
     {
+        var result = T.zero
         // DaveA
         // Option 1
         // this is fast: 1X perf
-        return service.cpu.queues[0].add(lhs, rhs)
+        service.cpu.queues[0].add(lhs, rhs, &result)
 
         // Option 2
         // want this to look like: perf ~100X
-        // return service.queues[0].add(lhs, rhs)
+        // service.queues[0].add(lhs, rhs, &result)
         
         // Option 3
-        // ugly but ... perf: ~1.9X
+        // not pretty but ...
+        // pure overhead perf: ~1.9X
+        // with workload perf: ~1.0X  no loss of performance
 //        if service.useCpu {
-//            return service.cpu.queues[0].add(lhs, rhs)
+//            service.cpu.queues[0].add(lhs, rhs, &result)
 //        } else {
-//            return service.accelerators[0].queues[0].add(lhs, rhs)
+//            service.accelerators[0].queues[0].add(lhs, rhs, &result)
 //        }
+
+        return result
     }
     
     func addMore<T>(_ lhs: T, _ rhs: T) -> T
         where T: TensorView & BinaryInteger
     {
-        service.cpu.queues[0].addMore(lhs, rhs)
+        var result = T.zero
+        service.cpu.queues[0].addMore(lhs, rhs, &result)
+        return result
     }
 }
 
 //------------------------------------------------------------------------------
 extension DeviceQueue {
-    public func add<T>(_ lhs: T, _ rhs: T) -> T
-        where T: TensorView & AdditiveArithmetic
+    public func add<T>(_ lhs: T, _ rhs: T, _ result: inout T)
+        where T: TensorView & BinaryInteger
     {
-        lhs + rhs
+        result = lhs + rhs
     }
     
-    public func addMore<T>(_ lhs: T, _ rhs: T) -> T
+    public func addMore<T>(_ lhs: T, _ rhs: T, _ result: inout T)
         where T: TensorView & BinaryInteger
     {
         let vl = [T](repeating: lhs, count: 10)
         let vr = [T](repeating: rhs, count: 10)
-        return (zip(vl, vr).map { $0 + $1 }).reduce(0,+) / 10
-    }
-    
-    public func sub<T>(_ lhs: T, _ rhs: T) -> T
-        where T: TensorView & AdditiveArithmetic {
-            print("default user sub from DeviceFunctions")
-            return lhs - rhs
+        result = (zip(vl, vr).map { $0 + $1 }).reduce(0,+) / 10
     }
 }
