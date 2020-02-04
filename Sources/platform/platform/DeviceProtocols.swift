@@ -65,6 +65,16 @@ public protocol ComputeService: Logger {
     /// name used logging
     var name: String { get }
 
+    // DaveA discuss
+    // `cpu` and `accelerators` are collections of types conforming to
+    // `DeviceQueue`, but they are different implementations.
+    
+    // I want to somehow expose them as a joined homogenous collection of
+    // device queues to be uniformly used by the optimizer layer and
+    // by the API functions. Perhaps the current design is still upside down
+    
+    // var queues: [DeviceQueue] <-- this is slow and bad
+    
     //--------------------------------------------------------------------------
     // initializers
     init(parent logInfo: LogInfo, id: Int)
@@ -97,7 +107,7 @@ public protocol ComputeDevice: Logger {
 /// DeviceQueue
 /// A device queue is an asynchronous sequential list of commands to be
 /// executed on the associated device.
-public protocol DeviceQueue: DeviceFunctions, Logger {
+public protocol DeviceQueue: Logger {
     // properties
     /// the id of the device for example queue:0, queue:1, ...
     var id: Int { get }

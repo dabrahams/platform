@@ -3,6 +3,8 @@ extension ComputePlatform {
     func add<T>(_ lhs: T, _ rhs: T) -> T
         where T: TensorView & AdditiveArithmetic
     {
+        // DaveA
+        // want this to look like `service.queues[0].add(lhs, rhs)`
         service.cpu.queues[0].add(lhs, rhs)
     }
     
@@ -14,18 +16,7 @@ extension ComputePlatform {
 }
 
 //------------------------------------------------------------------------------
-public protocol DeviceFunctions {
-    func add<T>(_ lhs: T, _ rhs: T) -> T
-        where T: TensorView & AdditiveArithmetic
-    
-    func addMore<T>(_ lhs: T, _ rhs: T) -> T
-        where T: TensorView & BinaryInteger
-    
-    func sub<T>(_ lhs: T, _ rhs: T) -> T
-        where T: TensorView & AdditiveArithmetic
-}
-
-extension DeviceFunctions {
+extension DeviceQueue {
     public func add<T>(_ lhs: T, _ rhs: T) -> T
         where T: TensorView & AdditiveArithmetic
     {

@@ -39,13 +39,5 @@ public class Platform<Service>: ComputePlatform
         // create the service
         self.service = Service(parent: logInfo, id: 0)
     }
-    
-    public func cpu(queue: Int) -> DeviceQueue {
-        service.cpu.queues[queue]
-    }
-    
-    public func accelerator(device: Int, queue: Int) -> DeviceQueue {
-        service.accelerators[device].queues[queue]
-    }
 }
 
