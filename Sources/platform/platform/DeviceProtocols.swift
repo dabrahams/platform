@@ -63,18 +63,7 @@ extension DeviceFunctions {
 /// ComputePlatform
 /// The root collection of compute resources available to the application
 /// on a given machine
-public protocol PlatformDevices: Logger {
-    /// returns the specified cpu device queue
-    func cpu(queue: Int) -> DeviceQueue
-    /// returns the specified accelerator device queue
-    func accelerator(device: Int, queue: Int) -> DeviceQueue
-}
-
-//==============================================================================
-/// ComputePlatform
-/// The root collection of compute resources available to the application
-/// on a given machine
-public protocol ComputePlatform: PlatformDevices {
+public protocol ComputePlatform: Logger {
     // types
     associatedtype Service: ComputeService
     
