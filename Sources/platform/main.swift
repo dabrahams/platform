@@ -43,19 +43,3 @@ extension ApplicationPlatform
         print("count: \(count)")
     }
 }
-
-//------------------------------------------------------------------------------
-// simulated api
-extension ComputePlatform {
-    func add<T>(_ lhs: T, _ rhs: T) -> T
-        where T: TensorView & AdditiveArithmetic
-    {
-        service.cpu.queues[0].add(lhs, rhs)
-    }
-    
-    func addMore<T>(_ lhs: T, _ rhs: T) -> T
-        where T: TensorView & BinaryInteger
-    {
-        service.cpu.queues[0].addMore(lhs, rhs)
-    }
-}
