@@ -13,8 +13,6 @@ typealias ApplicationPlatform = Platform<CpuService>
 // create a platform instance
 let platform = ApplicationPlatform()
 
-// run a user defined function
-platform.runModel()
 
 // extend the application platform with our model
 extension ApplicationPlatform {
@@ -35,10 +33,12 @@ extension ApplicationPlatform {
             }
             elapsed.append(Date().timeIntervalSince(start))
         }
-        print("protocol based time: " +
-            "\(String(describing: elapsed.reduce(0.0,+) / Double(runs))))")
-        
+        print("protocol based time: \(elapsed.reduce(0.0,+) / Double(runs))")
+            
         // use count so it isn't optimized out
         print("count: \(count)")
     }
 }
+
+// run a user defined function
+platform.runModel()
